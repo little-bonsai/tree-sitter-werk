@@ -1,0 +1,77 @@
+===
+Creation
+===
+let array = ["a", "b", "c"]
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (list
+        (exp
+          (string))
+        (exp
+          (string))
+        (exp
+          (string))))))
+
+===
+AccessAndAssigment
+===
+let a = array[0] | assert-eq "a"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (access
+            (identifier)
+            (exp
+              (number))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+AccessInInterpolation
+===
+let a = "x{array[0]}" | assert-eq "xa"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (string
+            (interpolation
+              (exp
+                (access
+                  (identifier)
+                  (exp
+                    (number)))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+NegIndex
+===
+let x = xs[-1]
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (access
+        (identifier)
+        (exp
+          (number))))))

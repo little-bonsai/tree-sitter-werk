@@ -1,0 +1,108 @@
+===
+Default
+===
+default target = "bar"
+---
+
+(source_file
+  (default
+    (identifier)
+    (exp
+      (string))))
+
+===
+BuildBar
+===
+build "bar" { }
+---
+
+(source_file
+  (buildBlock
+    name: (string)
+    (recipe)))
+
+===
+BuildBarFromFoo
+===
+build "bar" {
+  from "foo"
+}
+---
+
+(source_file
+  (buildBlock
+    name: (string)
+    (recipe
+      (from
+        (exp
+          (string))))))
+
+===
+CopyFooToBar
+===
+build "bar" {
+    from "foo"
+    run {
+        copy "{in}" to "{out}"
+    }
+}
+---
+
+(source_file
+  (buildBlock
+    name: (string)
+    (recipe
+      (from
+        (exp
+          (string)))
+      (run
+        (runBlock
+          (copy
+            (exp
+              (string
+                (interpolation
+                  (exp
+                    (identifier)))))
+            (exp
+              (string
+                (interpolation
+                  (exp
+                    (identifier)))))))))))
+
+===
+CopyWithEmptyLines
+===
+default target = "bar"
+
+build "bar" {
+    from "foo"
+    run {
+        copy "{in}" to "{out}"
+    }
+}
+---
+
+(source_file
+  (default
+    (identifier)
+    (exp
+      (string)))
+  (buildBlock
+    name: (string)
+    (recipe
+      (from
+        (exp
+          (string)))
+      (run
+        (runBlock
+          (copy
+            (exp
+              (string
+                (interpolation
+                  (exp
+                    (identifier)))))
+            (exp
+              (string
+                (interpolation
+                  (exp
+                    (identifier)))))))))))

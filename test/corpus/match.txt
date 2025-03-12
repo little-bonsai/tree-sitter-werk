@@ -1,0 +1,221 @@
+===
+EmptyMatch
+===
+let input = "a";
+let result = input
+    | match {}
+    | assert-eq "a"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (string)))
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (identifier))
+            (op
+              (match))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+MatchMapsTheString
+===
+let input = "foo.c"
+let result = input
+    | match {
+        "%.c" => "{%}.o"
+    }
+    | assert-eq "foo.o"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (string)))
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (identifier))
+            (op
+              (match
+                (matchArm
+                  (string)
+                  (exp
+                    (string
+                      (interpolation
+                        (exp
+                          (identifier))))))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+MismatchFallsBackToTheInputValue
+===
+let input = "foo.cpp"
+let result = input
+    | match {
+        "%.c" => "{%}.o"
+    }
+    | assert-eq "foo.cpp"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (string)))
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (identifier))
+            (op
+              (match
+                (matchArm
+                  (string)
+                  (exp
+                    (string
+                      (interpolation
+                        (exp
+                          (identifier))))))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+ExplicitFallback
+===
+let input = "foo.cpp"
+let result = input
+    | match {
+        "%.c" => "{%}.o"
+        "%" => "fallback"
+    }
+    | assert-eq "fallback"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (string)))
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (identifier))
+            (op
+              (match
+                (matchArm
+                  (string)
+                  (exp
+                    (string
+                      (interpolation
+                        (exp
+                          (identifier))))))
+                (matchArm
+                  (string)
+                  (exp
+                    (string)))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+ImplicitFallback
+===
+let result = "foo.cpp"
+    | match {
+        "%" => "{}"
+    }
+    | assert-eq "foo.cpp"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (string))
+            (op
+              (match
+                (matchArm
+                  (string)
+                  (exp
+                    (string
+                      (interpolation))))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))
+
+===
+FallbackNotHit
+===
+let input = "foo.c"
+let result = input
+    | match {
+        "%.c" => "{%}.o"
+        "%" => "fallback"
+    }
+    | assert-eq "foo.o"
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (string)))
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (pipe
+            (exp
+              (identifier))
+            (op
+              (match
+                (matchArm
+                  (string)
+                  (exp
+                    (string
+                      (interpolation
+                        (exp
+                          (identifier))))))
+                (matchArm
+                  (string)
+                  (exp
+                    (string)))))))
+        (op
+          (assertEq
+            (exp
+              (string))))))))

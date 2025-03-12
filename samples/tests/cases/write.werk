@@ -1,0 +1,9 @@
+default target = "foo"
+
+build "foo" {
+    run {
+        write "bar" to "{out}"
+    }
+}
+
+#!assert-file foo=bar

@@ -1,0 +1,14 @@
+# This example demonstrates the `write` expression in recipes, where the value #
+# of any expression can be written to a file. In this case, a list of strings is
+# written as lines.
+
+default out-dir = "../../target/examples/write"
+default target = "lines.txt"
+
+let list = ["a", "b", "c"]
+
+build "lines.txt" {
+    run {
+        write list | join "\n" to out
+    }
+}

@@ -1,0 +1,27 @@
+===
+Discard
+===
+let result = input
+	| discard "%.c"
+	| assert-eq ["b.cpp"]
+---
+
+(source_file
+  (let
+    (identifier)
+    (exp
+      (pipe
+        (exp
+          (identifier))
+        (op
+          (discard
+            (exp
+              (pipe
+                (exp
+                  (string))
+                (op
+                  (assertEq
+                    (exp
+                      (list
+                        (exp
+                          (string))))))))))))))

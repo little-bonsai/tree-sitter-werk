@@ -1,0 +1,66 @@
+default out-dir = "."
+
+build "samples/%" { 
+	run "curl https://raw.githubusercontent.com/simonask/werk/refs/heads/main/{%} -so <out:out-dir>"
+}
+
+build "src/grammar.json" {
+  from "grammar.js"
+  run "tree-sitter generate"
+}
+
+task generate {
+  build "src/grammar.json"
+}
+
+task test-update {
+  build "src/grammar.json"
+  run "tree-sitter test --update --show-fields"
+}
+
+task test {
+  build "src/grammar.json"
+  run "tree-sitter test --show-fields"
+}
+
+task test-outline {
+  build "src/grammar.json"
+  run "tree-sitter test --show-fields --overview-only"
+}
+
+task fetch-samples {
+	build "samples/examples/c/Werkfile"
+	build "samples/examples/demo/Werkfile"
+	build "samples/examples/hello/Werkfile"
+	build "samples/examples/include/Werkfile"
+	build "samples/examples/issue-41/Werkfile"
+	build "samples/examples/shaders/Werkfile"
+	build "samples/examples/write/Werkfile"
+	build "samples/tests/cases/array.werk"
+	build "samples/tests/cases/copy.werk"
+	build "samples/tests/cases/dedup.werk"
+	build "samples/tests/cases/discard.werk"
+	build "samples/tests/cases/env.werk"
+	build "samples/tests/cases/filter.werk"
+	build "samples/tests/cases/flatten.werk"
+	build "samples/tests/cases/join.werk"
+	build "samples/tests/cases/map.werk"
+	build "samples/tests/cases/match_expr.werk"
+	build "samples/tests/cases/nested_patterns.werk"
+	build "samples/tests/cases/read.werk"
+	build "samples/tests/cases/split.werk"
+	build "samples/tests/cases/string_interp.werk"
+	build "samples/tests/cases/write.werk"
+}
+
+task test-samples {
+	let files = glob "samples/**"
+	build "generate"
+  run "tree-sitter parse --quiet --stat --rebuild <files *:workspace>"
+}
+
+task test-suite {
+  build "test"
+  build "test-samples"
+}
+
