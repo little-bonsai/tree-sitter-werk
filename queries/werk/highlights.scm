@@ -1,7 +1,7 @@
 (buildBlock . ("build") @keyword.function)
-(taskBlock . ("task") @keyword.function )
-(run . ("run") @keyword.function )
-(taskBlock name: (identifier) @function )
+(taskBlock . ("task") @keyword.function)
+(run . ("run") @keyword.function)
+(taskBlock name: (identifier) @function)
 
 (comment) @comment
 (string) @string
@@ -13,7 +13,7 @@
 (default) @keyword.storage
 (config) @keyword.storage
 
-(interpolation ["{" "}" "<" ">" ] @punctuation.special)
+(interpolation ["{" "}" "<" ">"] @punctuation.special)
 ["{" "}" "<" ">" "(" ")" "[" "]"] @punctuation.bracket
 ["=>" "|"] @punctuation
 
@@ -43,7 +43,7 @@
 (which "which" @function.builtin)
 
 ; Operations
-(op (string)  @operator) 
+(op (string) @operator)
 ("dedup" @operator)
 ("first" @operator)
 ("flatten" @operator)
@@ -59,4 +59,3 @@
 (map "map" @operator)
 (match "match" @operator)
 (split "split" @operator)
-

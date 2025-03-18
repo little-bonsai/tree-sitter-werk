@@ -19,6 +19,7 @@ enum TokenType {
 /////////////
 
 typedef struct Scanner {
+  bool _;
 } Scanner;
 
 void *tree_sitter_werk_external_scanner_create() {
@@ -128,7 +129,7 @@ bool tree_sitter_werk_external_scanner_scan(void *payload, TSLexer *lexer, const
       lexer->result_symbol = TERMINATOR;
       return true;
     }
-
-    return false;
   }
+
+  return false;
 }
